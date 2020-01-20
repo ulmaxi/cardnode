@@ -8,9 +8,10 @@
 .profile-card-host {
     
     .profile-card {
+        background-color: rgb(102, 28, 112);
         display: flex;
         .card-image-box {
-            // background-color: rgb(255, 255, 255);
+            background-color: rgb(255, 255, 255);
             flex: 0.3;
             padding: 4%;
             .card-image {
@@ -21,11 +22,10 @@
         }
     }
     .data-container {
-        background-color: rgb(102, 28, 112);
         padding-left: 10%;
         display: flex;
         justify-content: center;
-        align-items: flex-end;
+        align-items: flex-start;
         flex-direction: column;
         color: white;
     }

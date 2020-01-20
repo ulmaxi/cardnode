@@ -4,6 +4,7 @@ import ProfileCard from 'src/users/components/profile-card';
 import LargeDashboardLayout from './components/large-layout';
 import SmallDashboardLayout from './components/small-layout';
 import './components/styles.scss';
+import WardCard from './components/ward-card/ward-card';
 
 type DashboardProp = {
   path?: any;
@@ -23,13 +24,23 @@ const Layout = ({ children }: ParentProp) => (
   </>
 );
 
+
+
+
 export default function Dashboard({}: DashboardProp) {
   return (
     <>
       <div className="dashboard">
         <CssBaseline />
         <Layout>
-          <ProfileCard />
+          <div className="information">
+            <div className="card">
+            <ProfileCard />
+            </div>
+            <div className="card">
+            <WardCard />
+            </div>
+          </div>
         </Layout>
       </div>
     </>

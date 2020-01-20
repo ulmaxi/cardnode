@@ -31,6 +31,20 @@
 .dashboard {
     background-color: rgb(211, 211, 211);
     width: 100vw;
+
+    .information {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .card {
+        width: 45%;
+        @media (min-width: 0px) and (max-width: 600px) {
+          width: 100%;
+          margin-top: 5vh;
+        }
+      }
+    }
 }
 
 // small screens
@@ -52,7 +66,7 @@
   }
 
   .content {
-    margin-top: 15vh;
+    margin-top: 9vh;
     width: 100vw;
   }
 }
