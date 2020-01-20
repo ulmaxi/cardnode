@@ -4,8 +4,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Login from '@ulmax/web-auth/login';
 import React from 'react';
+import Login from 'src/authentication/login';
 import { Theme } from './styles';
 
 function Copyright() {
