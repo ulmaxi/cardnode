@@ -1,10 +1,16 @@
-import { Field, FieldType } from '@ulmax/web-components';
-import DynamicForm from '@ulmax/web-components/dynamic-form';
+import { PersonalBiodata, UnsavedModel } from '@ulmax/frontend';
 import React from 'react';
+import { Field, ModelFieldType } from 'src/components';
+import DynamicForm from 'src/components/dynamic-form';
 
-const fields: FieldType[] = [
-  { name: 'firstname', type: Field.TextField, options: { inputType: 'text' } },
-  { name: 'lastname', type: Field.TextField, options: { inputType: 'text' } },
+const fields: Array<ModelFieldType<UnsavedModel<PersonalBiodata>>> = [
+  { name: 'firstname', type: Field.TextField, options: { inputType: 'text', } },
+  {
+    name: 'lastname',
+    type: Field.TextField,
+    options: { inputType: 'text' },
+    label: 'Surname',
+  },
   {
     name: 'gender',
     type: Field.Select,
@@ -12,15 +18,25 @@ const fields: FieldType[] = [
   },
   { name: 'email', type: Field.TextField, options: { inputType: 'email' } },
   { name: 'address', type: Field.TextField, options: { inputType: 'text' } },
-  { name: 'dob', type: Field.TextField, options: { inputType: 'date' } },
+  {
+    name: 'dob',
+    type: Field.TextField,
+    options: { inputType: 'date' },
+    label: 'Date of Birth',
+  },
   { name: 'town', type: Field.TextField, options: { inputType: 'text' } },
 ];
 
-export default function UserBiodataForm() {
-  const Form = DynamicForm(fields);
+export type UserBiodataFormProp = {
+  onSubmit(value: any): any
+  disable?: boolean
+}
+
+export default function UserBiodataForm({ onSubmit, disable }: UserBiodataFormProp) {
+  const Form = DynamicForm(fields, disable);
   return (
     <>
-      <Form onSubmit={(value: any) => console.log(value)} />
+      <Form onSubmit={onSubmit} />
     </>
   );
 }
