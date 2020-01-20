@@ -3,14 +3,14 @@ import DynamicTextArea from './text-area';
 import DynamicTextInput from './text-input';
 import { Field, FieldType } from './util';
 
-const Selector = (field: FieldType) => {
+const Selector = (field: FieldType, disabled: boolean) => {
   switch (field.type) {
     case Field.TextField:
-      return DynamicTextInput(field);
+      return DynamicTextInput(field, disabled);
     case Field.TextArea:
-      return DynamicTextArea(field);
+      return DynamicTextArea(field, disabled);
     case Field.Select:
-      return DynamicSelect(field);
+      return DynamicSelect(field, disabled);
     // case Field.Radio:
     //   return;
     default:

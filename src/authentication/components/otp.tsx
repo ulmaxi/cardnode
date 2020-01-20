@@ -1,7 +1,7 @@
 import Button from '@material-ui/core/Button';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import PinCode from '../../components/pin-code';
+import PinCode from 'src/components/pin-code';
 import { Theme } from '../theme';
 
 export type OTPFormState = {

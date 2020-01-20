@@ -1,16 +1,17 @@
 import Button from '@material-ui/core/Button';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import Selector from './dynamic-forms/select-field';
-import { DynamicUpdate, FieldType } from './dynamic-forms/util';
+import Selector from './dynamic-forms/selector';
+import { Theme } from './dynamic-forms/theme';
+import { DynamicFieldType, DynamicUpdate, FieldType } from './dynamic-forms/util';
 
 export interface FieldControl {
   control: any;
   update: DynamicUpdate;
 }
 
-export const FormField = (field: FieldType) => {
-  const Selected = Selector(field);
+export const FormField = (field: FieldType, disabled: boolean) => {
+  const Selected = Selector(field, disabled);
   return ({ control, update }: FieldControl) => {
     return (
       <>
@@ -26,24 +27,26 @@ export const FormField = (field: FieldType) => {
 export type DynamicFormSubmit<T> = (value: T) => any;
 export type DynamicFormProp<T> = { onSubmit: DynamicFormSubmit<T> };
 
-function DynamicForm<T>(fields: FieldType[]) {
-  const elements = fields.map(f => FormField(f));
+function DynamicForm<T, K = any>(fields: Array<DynamicFieldType<K>>, disabled = false) {
+  const elements = fields.map(f => FormField(f as FieldType, disabled));
   const Form = ({ onSubmit }: DynamicFormProp<T>) => {
+    const classes = Theme();
     const { handleSubmit, control, setValue } = useForm<T>();
     return (
       <>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           {elements.map((FieldElement, index) => (
             <FieldElement key={index} control={control} update={setValue} />
           ))}
           <Button
+          disabled = { disabled }
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             style={{ marginTop: '2vh' }}
           >
-            Okay
+            Confirm
           </Button>
         </form>
       </>

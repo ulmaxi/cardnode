@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { FieldType, GeneralProp, TextFieldOptions, validatedUpdate } from './util';
 
-const DynamicTextInput = (field: FieldType) => {
+const DynamicTextInput = (field: FieldType, disabled: boolean) => {
   const options = field.options as TextFieldOptions;
   const [error, setError] = useState<string>();
   return ({ control, onChange }: GeneralProp) => {
@@ -15,13 +15,14 @@ const DynamicTextInput = (field: FieldType) => {
           control={control}
           as={
             <TextField
+              disabled = {disabled}
               margin="normal"
               fullWidth
               id={`${field.name}-input`}
               defaultValue={options?.value || ''}
               autoFocus={options?.autoFocus ?? false}
               variant="outlined"
-              label={field.name}
+              label={ field.label || field.name}
               type={options.inputType || 'text'}
               error={Boolean(error)}
               helperText={error ?? ''}

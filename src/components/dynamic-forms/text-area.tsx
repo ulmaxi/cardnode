@@ -3,7 +3,7 @@ import React from 'react';
 import { Controller } from 'react-hook-form';
 import { FieldType, GeneralProp } from './util';
 
-const DynamicTextArea = (field: FieldType) => {
+const DynamicTextArea = (field: FieldType, disabled: boolean) => {
   return ({ control, onChange }: GeneralProp) => {
     return (
       <>
@@ -13,6 +13,7 @@ const DynamicTextArea = (field: FieldType) => {
           defaultValue={field?.options?.value}
           as={
             <TextArea
+              disabled = { disabled }
               required={field?.options?.required}
               onChange={(event: any) =>
                 onChange(field.name, event.target.value)

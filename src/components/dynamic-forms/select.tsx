@@ -3,19 +3,24 @@ import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { DynamicUpdate, FieldType, GeneralProp, SelectFieldOptions } from './util';
 
-type EmbededSelectProp = { field: FieldType; update: DynamicUpdate };
+type EmbededSelectProp = {
+  field: FieldType;
+  update: DynamicUpdate;
+  disabled: boolean;
+};
 
-const EmbededSelect = ({ field, update }: EmbededSelectProp) => {
+const EmbededSelect = ({ field, update, disabled }: EmbededSelectProp) => {
   const inputLabel = React.useRef<HTMLLabelElement>(null);
   const [state, setValue] = useState();
   const options: any[] = (field.options as SelectFieldOptions)?.options ?? [];
   return (
     <>
-      <FormControl variant="outlined">
+      <FormControl style={{ marginTop: '3vh' }} fullWidth variant="outlined">
         <InputLabel ref={inputLabel} id={`${field.name}-label`}>
-          {field.name}
+          {field.label || field.name}
         </InputLabel>
         <Select
+          disabled={disabled}
           autoWidth
           value={state}
           labelId={`${field.name}-label`}
@@ -38,14 +43,14 @@ const EmbededSelect = ({ field, update }: EmbededSelectProp) => {
   );
 };
 
-export default function DynamicSelect(field: FieldType) {
+export default function DynamicSelect(field: FieldType, disabled: boolean) {
   return ({ onChange, control }: GeneralProp) => {
     return (
       <>
         <Controller
           name={field.name}
           control={control}
-          as={<EmbededSelect field={field} update={onChange} />}
+          as={<EmbededSelect disabled={disabled} field={field} update={onChange} />}
         />
       </>
     );

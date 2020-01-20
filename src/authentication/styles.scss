@@ -1,0 +1,43 @@
+.sign-in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+}
+
+
+.registration-bg {
+    background-color: rgb(233, 231, 231);;
+}
+
+.registration-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.registration-content {
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-color: grey;
+    min-height: 95vh;
+    
+    @media (min-width: 0px) and (max-width: 600px) {
+        margin-top: 5%;
+    }
+    
+    .profile-editor {
+        width: 50vw;
+        @media (min-width: 0px) and (max-width: 600px) {
+            width: 95vw;
+            margin-top: 2vh;
+        }
+        
+    }
+}
+
+
