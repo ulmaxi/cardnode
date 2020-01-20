@@ -24,9 +24,6 @@ const Layout = ({ children }: ParentProp) => (
   </>
 );
 
-
-
-
 export default function Dashboard({}: DashboardProp) {
   return (
     <>

@@ -9,8 +9,8 @@
         min-height: 50px;
         display: flex;
         .card-number {
-            margin-left: 3vh;
-            margin-right: 3vh;
+            margin-left: 3vw;
+            margin-right: 3vw;
             background-color: white;
             min-height: 40px;
             flex: 3;
@@ -26,6 +26,7 @@
             flex-direction: column;
             justify-content: center;
             min-height: 40px;
+            margin-right: 3vw;
             // width: 40px;
         }
     }
