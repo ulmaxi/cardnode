@@ -1,0 +1,24 @@
+.tablet-container {
+    display: flex;
+    flex-direction: column;
+
+    .tablet-header {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 7vh;
+        color: white;
+        background-color: purple;
+    }
+}
+
+.drug-container {
+    display: flex;
+    flex-direction: column;
+
+    .drugs-info {
+        .drug-details {
+            margin-bottom: 5vh;
+        }
+    }
+}
