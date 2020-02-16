@@ -1,11 +1,12 @@
 import Drawer from '@material-ui/core/Drawer';
 import React from 'react';
+import LayoutSideBar from '../side-bar';
 
-export default function MobileDrawer({ className }: { className?: string }) {
+export default function MobileDrawer({ menu }: { menu?: boolean }) {
   return (
     <>
-      <Drawer >
-        <div className={className }>i am the mobile drawer</div>
+      <Drawer open={menu} variant="temporary" >
+        <LayoutSideBar routes={[]} />
       </Drawer>
     </>
   );

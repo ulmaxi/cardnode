@@ -1,50 +1,54 @@
+.layout-items {
+  display: flex;
+  flex-direction: column;
+}
+
 .row {
-    display: flex;
-    width: 100vw;
+  display: flex;
+  width: 100vw;
 }
 
 .links {
-        
-  Button {
+  button {
     color: rgb(124, 124, 124);
     :hover {
-      
       color: rgb(68, 68, 68);
     }
   }
 }
 
 .menu-bar {
-    margin-top: 3%;
-    margin-bottom: 3%;
-    display: flex;
-    justify-content: space-between;
-    border-radius: 50;
-    
+  margin-top: 3%;
+  margin-bottom: 3%;
+  height: 7vh;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 50;
 }
 
 .column {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard {
-    background-color: rgb(211, 211, 211);
-    width: 100vw;
+  background-color: rgba(233, 233, 233, 0.815);
+  width: 100vw;
 
-    .information {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+  .information {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
-      .card {
-        width: 45%;
-        @media (min-width: 0px) and (max-width: 600px) {
-          width: 100%;
-          margin-top: 5vh;
-        }
+    .card {
+      width: 45%;
+      @media (min-width: 0px) and (max-width: 600px) {
+        width: 100%;
+        margin-top: 5vh;
       }
     }
+  }
 }
 
 // small screens
@@ -71,7 +75,6 @@
   }
 }
 
-
 // desktop queries
 @media (min-width: 600px) {
   .hide-large-screen {
@@ -86,16 +89,17 @@
     width: 80vw;
     // justify-content: center;
   }
-  
+
   .toolbar {
     margin-top: 5vh;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    // max-height: 7vh;
     // align-items: flex-end;
   }
-  
-  Button.log-out-btn {
+
+  button.log-out-btn {
     margin-left: 5%;
   }
 
@@ -106,9 +110,37 @@
     height: 100vh;
     flex-direction: column;
   }
-  
+
   .bg-break {
     background-color: white;
     height: 5vh;
+  }
+}
+
+.member-list {
+  margin-top: 5vh;
+}
+
+
+.layout-side-bar {
+  display: flex;
+  flex-direction: column;
+  background-color: purple;
+  color: white;
+  height: 99vh;
+
+  .sidebar-brand {
+    margin: 5vh 1vw;
+    height: 15vh;
+  }
+
+  .sidebar-spacer {
+    height: 7vh;
+    background-color: white;
+  }
+
+  .sidebar-routes {
+    display: flex;
+    flex-direction: column;
   }
 }

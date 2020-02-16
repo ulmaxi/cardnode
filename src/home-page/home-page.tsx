@@ -1,19 +1,17 @@
 import { Link } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import Login from 'src/authentication/login';
-import { Theme } from './styles';
+import './styles.scss';
+
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="https://ulmax.tech/">
+        Ulmax
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -22,28 +20,17 @@ function Copyright() {
 }
 
 const HomePage: any = () => {
-  const classes = Theme();
   return (
     <>
-      <div>
-        <Grid container component="main" className={classes.root}>
-          <CssBaseline />
-          <Grid item xs={false} sm={4} md={7} className={classes.image} />
-          <Grid
-            item
-            xs={12}
-            sm={8}
-            md={5}
-            component={Paper}
-            elevation={6}
-            square
-          >
+      <div className="page-container">
+        <Card>
+          <div className="login-container">
             <Login />
-          </Grid>
-        </Grid>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
+            <div className="copyright-container">
+              <Copyright />
+            </div>
+          </div>
+        </Card>
       </div>
     </>
   );

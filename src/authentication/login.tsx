@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
 import PhoneNo from './components/phone-no';
+import './styles.scss';
 
 export default function SignInSide() {
   return (
@@ -15,9 +16,11 @@ export default function SignInSide() {
         Sign in
       </Typography>
       <PhoneNo />
+      <div className="signup-link">
       <Link href="#" variant="body2">
         {"Don't have an account? Sign Up"}
       </Link>
+      </div>
     </div>
   );
 }

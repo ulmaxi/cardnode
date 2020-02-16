@@ -5,12 +5,17 @@ import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
 
-export default function MobileBar({ barClass }: { barClass?: string }) {
+interface MobileBarProp { 
+  barClass?: string;
+  toggleMenu: () => any;
+}
+
+export default function MobileBar({ barClass, toggleMenu }: MobileBarProp) {
   return (
     <>
       <AppBar color={'inherit'} position={'fixed'}>
         <Toolbar variant={'regular'} className={barClass}>
-          <IconButton>
+          <IconButton onClick={() => toggleMenu()}>
             <MenuIcon />
           </IconButton>
           <TextField
