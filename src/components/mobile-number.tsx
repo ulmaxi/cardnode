@@ -13,6 +13,7 @@ export type MobileInputState = {
 };
   
 type MobileNoInputProp = {
+  disabled?: boolean;
   onChange(value: string): any;
 };
 
@@ -42,9 +43,10 @@ const MobileNoInput = (prop: MobileNoInputProp) => {
   } ;
   return (
     <>
-      <SelectCountry onChange={country => update({ ...state, country })} />
+      <SelectCountry disabled= { prop.disabled  }  onChange={country => update({ ...state, country })} />
       <TextField
         required
+        disabled = {prop.disabled || false }
         margin="normal"
         fullWidth
         id="identification"
@@ -55,7 +57,7 @@ const MobileNoInput = (prop: MobileNoInputProp) => {
         type="string"
         error ={ Boolean(state.error) }
         helperText = { state.error ?? '' }
-        onChange ={event =>
+        onChange ={(event: any) =>
           update({ ...state, value: Number(event.target.value) })
         }
         InputProps={{

@@ -13,15 +13,14 @@ export type PhoneFormProp = {
   submit(form: PhoneForm): void;
 };
 
-export const PhoneNoForm = () => {
+export const PhoneNoForm = ({ submit, loading }: PhoneFormProp) => {
   const theme = Theme();
   const { setValue, handleSubmit, errors, control } = useForm<PhoneForm>();
-  const onSubmit = (data: PhoneForm) => console.log(data);
 
   return (
     <>
       {' '}
-      <form className={theme.form} onSubmit={handleSubmit(onSubmit)}>
+      <form  className={theme.form} onSubmit={handleSubmit(submit)}>
         <Controller
           name="identification"
           as={
@@ -35,11 +34,11 @@ export const PhoneNoForm = () => {
           control={control}
         />
         <Button
+        disabled={loading}
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
-          style={{ marginTop: '2vh' }}
+          style={{ marginTop: '2vh', backgroundColor: 'purple', color: 'white' }}
         >
           Authorize
         </Button>

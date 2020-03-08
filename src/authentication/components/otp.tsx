@@ -5,29 +5,26 @@ import PinCode from 'src/components/pin-code';
 import { Theme } from '../theme';
 
 export type OTPFormState = {
-  identification: string;
+  pin: string;
 };
 
 export type OTPFormProp = {
   loading?: boolean;
-  submit(form: OTPFormState): void;
+  submit(form: OTPFormState): any;
 };
 
-export default function OTPForm() {
+export default function OTPForm({ submit, loading }: OTPFormProp) {
   const theme = Theme();
-  const { control, handleSubmit, errors, watch } = useForm<OTPFormState>();
-  const onSubmit = (data: OTPFormState) => console.log(data);
-  watch('identification');
+  const { control, handleSubmit, setValue } = useForm<OTPFormState>();
 
   return (
-    <>
-      {' '}
-      <form className={theme.form} onSubmit={handleSubmit(onSubmit)}>
+    <div>
+      <form className={theme.form} onSubmit={handleSubmit(submit)}>
         <Controller
           as={
             <PinCode
-              onChange={v => {
-                console.log(v);
+              onChange={value => {
+                setValue('pin', `${value}`);
               }}
               field={'password'}
               length={5}
@@ -37,16 +34,20 @@ export default function OTPForm() {
           name="otp"
         />
         <Button
+          hidden={loading}
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
-          style={{ marginTop: '2vh' }}
+          style={{
+            marginTop: '2vh',
+            backgroundColor: 'purple',
+            color: 'white',
+          }}
           // className={theme.submit}
         >
           Confirm
         </Button>
       </form>
-    </>
+    </div>
   );
 }

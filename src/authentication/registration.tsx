@@ -6,11 +6,13 @@ import React from 'react';
 import logo from 'src/ulmax-branding.png';
 import ProfileEditor from 'src/users/profile-editor';
 import './styles.scss';
+   
+const Profiler = <ProfileEditor />;
 
 export default function Registration({ children }: RouterPath) {
     return (
         <div className="registration-bg">
-            <AppBar variant='elevation' position={'sticky'}>
+            <AppBar style={{backgroundColor: 'purple'}} variant='elevation' position={'sticky'}>
                 <Toolbar className="registration-toolbar"  variant='dense' >
                 <img src={logo} height={'30px'} />
                     <Typography variant={'h6'}>
@@ -19,15 +21,14 @@ export default function Registration({ children }: RouterPath) {
 
                 </Toolbar>
             </AppBar>
-            <div className="registration-content">
-                        {/* <SignUp/> */}
 
+            <Card>
+                { children }
+            </Card>
+            {/* <div className="registration-content">
                         <div className="profile-editor">
-                            <Card>
-                                <ProfileEditor />
-                            </Card>
                         </div>
-            </div>
+            </div> */}
         </div>
     )
 }

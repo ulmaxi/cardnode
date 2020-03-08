@@ -19,6 +19,7 @@ function DrugPrescription() {
               hopsital="life care hospital"
               owner="AWS Charges"
               prescriptions={[]}
+              date={new Date()}
             />
           </div>
           <div className="drug-details">
@@ -26,6 +27,7 @@ function DrugPrescription() {
               hopsital="life care hospital"
               owner="AWS Charges"
               prescriptions={[]}
+              date={new Date()}
             />
           </div>
         </div>
