@@ -1,0 +1,33 @@
+.ward-card {
+    background-color: rgb(102, 28, 112);
+    display: flex;
+    flex-direction: column;
+    min-height: 150px;
+    justify-content: center;
+    
+    .card-details {
+        min-height: 50px;
+        display: flex;
+        .card-number {
+            margin-left: 3vw;
+            margin-right: 3vw;
+            background-color: white;
+            min-height: 40px;
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .card-icon {
+            background-color: white;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 40px;
+            margin-right: 3vw;
+            // width: 40px;
+        }
+    }
+}

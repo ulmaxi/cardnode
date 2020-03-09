@@ -1,0 +1,23 @@
+.members-list {
+  display: flex;
+  flex-direction: column;
+
+  .members-list-headers {
+    display: flex;
+    height: 7vh;
+    background-color: rgb(221, 43, 12);
+    color: white;
+    align-items: center;
+  }
+}
+
+.members-list-row {
+  height: 7vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.text-padd-5 {
+  margin-left: 3vw;
+}
