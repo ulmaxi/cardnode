@@ -1,0 +1,23 @@
+.dashboard {
+    // background-color: rgba(233, 233, 233, 0.815);
+    width: 100vw;
+  
+    .information {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+  
+      .card {
+        width: 45%;
+        @media (min-width: 0px) and (max-width: 600px) {
+          width: 100%;
+          margin-top: 5vh;
+        }
+      }
+    }
+  }
+
+  .member-list {
+    margin-top: 5vh;
+  }
+  

@@ -30,13 +30,14 @@ const fields: Array<ModelFieldType<UnsavedModel<PersonalBiodata>>> = [
 export type UserBiodataFormProp = {
   onSubmit(value: any): any
   disable?: boolean
+  hideSubmitBtn?: boolean
 }
 
-export default function UserBiodataForm({ onSubmit, disable }: UserBiodataFormProp) {
+export default function UserBiodataForm({ onSubmit, disable, hideSubmitBtn }: UserBiodataFormProp) {
   const Form = DynamicForm(fields, disable);
   return (
     <>
-      <Form onSubmit={onSubmit} />
+      <Form onSubmit={onSubmit} hideSubmitBtn={hideSubmitBtn} />
     </>
   );
 }

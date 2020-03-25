@@ -25,19 +25,21 @@ export const FormField = (field: FieldType, disabled: boolean) => {
 };
 
 export type DynamicFormSubmit<T> = (value: T) => any;
-export type DynamicFormProp<T> = { onSubmit: DynamicFormSubmit<T> };
+export type DynamicFormProp<T> = { onSubmit: DynamicFormSubmit<T>, hideSubmitBtn?: boolean };
 
 function DynamicForm<T, K = any>(fields: Array<DynamicFieldType<K>>, disabled = false) {
   const elements = fields.map(f => FormField(f as FieldType, disabled));
-  const Form = ({ onSubmit }: DynamicFormProp<T>) => {
+  const Form = ({ onSubmit, hideSubmitBtn }: DynamicFormProp<T>) => {
     const classes = Theme();
     const { handleSubmit, control, setValue } = useForm<T>();
+    console.log({ hideSubmitBtn, disabled })
     return (
       <>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           {elements.map((FieldElement, index) => (
             <FieldElement key={index} control={control} update={setValue} />
           ))}
+          <div hidden={hideSubmitBtn}>
           <Button
           disabled = { disabled }
             type="submit"
@@ -48,6 +50,7 @@ function DynamicForm<T, K = any>(fields: Array<DynamicFieldType<K>>, disabled = 
           >
             Confirm
           </Button>
+          </div>
         </form>
       </>
     );

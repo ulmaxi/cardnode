@@ -3,7 +3,7 @@ import SelectCardMembers from 'src/users/members/select-members';
 import './components/styles.scss';
 import Tablet from './components/tablet';
 
-function DrugPrescription() {
+function DrugPrescription({}: RouterPath) {
   return (
     <>
       <div className="drug-container">

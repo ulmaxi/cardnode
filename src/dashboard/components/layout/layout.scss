@@ -1,0 +1,65 @@
+// layout items queries
+.MuiTextField-root.search-input-box {
+  margin-left: 5vw;
+  margin: 0.8vh;
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl {
+    .MuiInputBase-input.MuiOutlinedInput-input {
+      color: white;
+    }
+    .PrivateNotchedOutline-root-114.MuiOutlinedInput-notchedOutline {
+      border-color: white !important;
+      .PrivateNotchedOutline-legend-115 {
+        color: white;
+      }
+    }
+    color: white;
+  }
+}
+
+// layout contents base styling
+.content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  // width: 100vw;
+  margin: 1vh 5vw 0 5vw;
+  @media (min-width: 600px) {
+    margin: 5vh 5vw 0 5vw;
+  }
+}
+
+// side bar css-queries
+.layout-side-bar {
+  display: flex;
+  flex-direction: column;
+  background-color: purple;
+  color: white;
+  height: 99vh;
+
+  // styling for the brand image
+  .sidebar-brand {
+    margin: 5vh 1vw;
+    height: 15vh;
+  }
+
+  // space styling in the side bar
+  .sidebar-spacer {
+    height: 7vh;
+    background-color: white;
+  }
+
+  // uniques styling for each route link
+  .sidebar-routes {
+    display: flex;
+    flex-direction: column;
+    
+    a {
+      color: white;
+      margin-top: 3vh;
+      text-align: center;
+      text-decoration: none;
+      font-size: larger;
+    }
+
+  }
+}

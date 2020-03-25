@@ -1,6 +1,7 @@
 import { UlmaxCardLevel } from '@ulmax/frontend';
 import React from 'react';
-import './styles.scss';
+import Typography from '@material-ui/core/Typography';
+import './members.scss';
 
 export interface MemberDetails {
   cardId: string;
@@ -25,9 +26,9 @@ const MemberRow = ({ index, member }: MemberRowProp) => (
       backgroundColor: index % 2 === 0 ? 'rgb(200, 200, 200)' : 'white',
     }}
   >
-    <span> {index + 1} </span>
-    <span> {member.fullName} </span>
-    <span> {member.accesslevel} </span>
+    <Typography> {index + 1} </Typography>
+    <Typography > {member.fullName} </Typography>
+    <Typography> {member.accesslevel} </Typography>
   </div>
 );
 
@@ -36,7 +37,9 @@ function MemberList({ members, onClick }: MemberListProp) {
     <>
       <div className="members-list">
         <div className="members-list-headers">
-          <h3 className="text-padd-5"> Members </h3>
+          <Typography variant="h5">
+            Members
+          </Typography>
         </div>
         <div className="table-contents">
           {members.map((m, i) => (

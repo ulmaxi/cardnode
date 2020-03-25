@@ -3,8 +3,8 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import Login from 'src/authentication/login';
-import './styles.scss';
-
+import './home-page.scss';
+import AppBar from 'src/dashboard/components/layout/toolbar';
 
 function Copyright() {
   return (
@@ -22,6 +22,8 @@ function Copyright() {
 const HomePage: any = () => {
   return (
     <>
+    <div>
+      <AppBar></AppBar>
       <div className="page-container">
         <Card>
           <div className="login-container">
@@ -32,6 +34,7 @@ const HomePage: any = () => {
           </div>
         </Card>
       </div>
+    </div>
     </>
   );
 };

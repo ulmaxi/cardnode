@@ -15,7 +15,7 @@ export default function ProfileCard() {
           </div>
           <div className="data-container">
             <Typography variant="h4">Oyegoke Abiodun</Typography>
-            <Typography variant="h6">23yrs Male</Typography>
+            <Typography variant="h6">2xyrs Male</Typography>
           </div>
         </div>
       </Card>

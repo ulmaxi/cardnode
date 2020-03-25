@@ -38,14 +38,15 @@ const fields: Array<DynamicFieldType<FormData>> = [
 
 export type UserCommunalFormProp = {
   onSubmit(value: any): any
-  disable?: boolean
+  disable?: boolean,
+  hideSubmitBtn?: boolean
 }
 
-export default function UserCommunalForm({ onSubmit, disable }: UserCommunalFormProp) {
+export default function UserCommunalForm({ onSubmit, disable, hideSubmitBtn }: UserCommunalFormProp) {
   const Form = DynamicForm(fields, disable);
   return (
     <>
-      <Form onSubmit={onSubmit} />
+      <Form onSubmit={onSubmit} hideSubmitBtn={hideSubmitBtn} />
     </>
   );
 }

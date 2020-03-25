@@ -1,13 +1,13 @@
 .members-list {
   display: flex;
   flex-direction: column;
-
+  
   .members-list-headers {
-    display: flex;
+    text-align: left;
+    padding: 10px;
     height: 7vh;
     background-color: rgb(221, 43, 12);
     color: white;
-    align-items: center;
   }
 }
 
@@ -15,9 +15,18 @@
   height: 7vh;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 .text-padd-5 {
-  margin-left: 3vw;
+  margin-left: 10vw;
+}
+
+
+.members-page {
+  display: flex;
+flex-direction: column;
+.create-btn {
+  margin: 5%;
+}
 }

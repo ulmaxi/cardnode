@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import UserBiodataForm from './components/biodata-form';
 import CommunalDataForm from './components/communal-form';
 import './components/styles.scss';
+import { Button } from '@material-ui/core';
 
 type ProfileEditorState = {
   currentStep: number;
@@ -39,14 +40,19 @@ const ProfileEditor = (props: ProfileEditorProp) => {
           <Step>
             <StepLabel> Personal Information </StepLabel>
             <StepContent>
-              <UserBiodataForm onSubmit={onSubmit} />
-              
+              <UserBiodataForm onSubmit={onSubmit} disable={!props.editable} hideSubmitBtn={!props.editable} />
+              <div  hidden={props.editable}>
+              <Button variant='outlined' color='primary' onClick={() => setState({ currentStep: 1 })} > Next </Button>
+              </div>
             </StepContent>
           </Step>
           <Step>
             <StepLabel> Security and Community Information </StepLabel>
             <StepContent>
-              <CommunalDataForm onSubmit={onSubmit} />
+              <CommunalDataForm onSubmit={onSubmit} disable={!props.editable}  hideSubmitBtn={!props.editable} />
+             <div hidden={props.editable}>
+              <Button variant='outlined' color='primary' onClick={() => setState({ currentStep: 0 })} > Previous </Button>
+             </div>
             </StepContent>
           </Step>
         </Stepper>

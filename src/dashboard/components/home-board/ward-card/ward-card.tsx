@@ -1,6 +1,6 @@
 import Card from '@material-ui/core/Card';
 import React from 'react';
-import './styles.scss';
+import './ward-card.scss';
 
 export default function WardCard() {
   return (

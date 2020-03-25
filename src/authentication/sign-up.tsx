@@ -30,24 +30,19 @@ export default function SignUpPage({ children }: RouterPath) {
         <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-        <div hidden={OTPState?.login ? true : false}>
+        {/* <div hidden={OTPState?.login ? true : false}>
           <PhoneNo
             submit={reqOTP}
             loading={useSelector(authSelector).loading}
           />
-        </div>
+        </div> */}
         <div hidden={OTPState?.login?.loginId ? true : false}>
           <OTP
             submit={confirmOTP}
             loading={useSelector(authSelector).loading}
           />
         </div>
-        <div>
-          <PhoneNo
-            submit={reqOTP}
-            loading={useSelector(authSelector).loading}
-          />
-        </div>
+
         <div
           className="signup-link"
           hidden={!useSelector(authSelector).loading}
