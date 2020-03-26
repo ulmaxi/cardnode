@@ -20,30 +20,35 @@ const userSlice = createSlice({
   name: 'users',
   initialState: initialState,
   reducers: {
-    upsertMember: (state, { payload}: StoreAction<UlmaxFullCard> ) => {
-        state.members.set(payload.card.id, payload);
-        state.loading = false;
-        return state;
+    batchUpsertMember: (state, { payload }: StoreAction<UlmaxFullCard[]>) => {
+      payload.forEach(member => {
+        state.members.set(member.card.id, member);
+      });
+      state.loading = false;
+      return state;
+    },
+    upsertMember: (state, { payload }: StoreAction<UlmaxFullCard>) => {
+      state.members.set(payload.card.id, payload);
+      state.loading = false;
+      return state;
     },
     removeMember: (state, { payload }: StoreAction<string>) => {
-        state.members.delete(payload);
-        state.loading = false;
-        return state;
+      state.members.delete(payload);
+      state.loading = false;
+      return state;
     },
     error: (state, { payload }: StoreAction<string | undefined>) => {
-        state.error = payload;
-        state.loading = false;
-        return state;
+      state.error = payload;
+      state.loading = false;
+      return state;
     },
-    loading: (
-      state,
-    ) => {
-        state.loading = true;
-        return state;
+    loading: state => {
+      state.loading = true;
+      return state;
     },
   },
 });
 
-export const AuthActions = userSlice.actions;
+export const userActions = userSlice.actions;
 
 export default userSlice.reducer;

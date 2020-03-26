@@ -1,6 +1,6 @@
 import { CommunalData, UnsavedModel } from '@ulmax/frontend';
 import React from 'react';
-import { DynamicFieldType, Field } from 'src/components';
+import { DynamicFieldType, Field, formValueLoader } from 'src/components';
 import DynamicForm from 'src/components/dynamic-form';
 import { FieldBuilder } from 'src/components/dynamic-forms/builder';
 import { normalTextField, requiredTextField } from './helper';
@@ -37,13 +37,19 @@ const fields: Array<DynamicFieldType<FormData>> = [
 ];
 
 export type UserCommunalFormProp = {
-  onSubmit(value: any): any
-  disable?: boolean,
-  hideSubmitBtn?: boolean
-}
+  onSubmit(value: any): any;
+  disable?: boolean;
+  hideSubmitBtn?: boolean;
+  value?: CommunalData;
+};
 
-export default function UserCommunalForm({ onSubmit, disable, hideSubmitBtn }: UserCommunalFormProp) {
-  const Form = DynamicForm(fields, disable);
+export default function UserCommunalForm({
+  value,
+  onSubmit,
+  disable,
+  hideSubmitBtn,
+}: UserCommunalFormProp) {
+  const Form = DynamicForm(formValueLoader(fields, value), disable);
   return (
     <>
       <Form onSubmit={onSubmit} hideSubmitBtn={hideSubmitBtn} />
