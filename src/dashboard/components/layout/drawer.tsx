@@ -11,10 +11,10 @@ const routes:  DashboardDrawerLink[] = [
   link: '/dashboard/prescriptions',
   title: 'Prescriptions'
 },
-// {
-//   link: '/dashboard/emergency',
-//   title: 'Emergency'
-// },
+{
+  link: '/dashboard/emergency',
+  title: 'Emergency'
+},
 // {
 //   link: '/dashboard/followup',
 //   title: 'FollowUp'

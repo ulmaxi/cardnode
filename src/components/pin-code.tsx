@@ -11,7 +11,6 @@ const PinCode = ({ field, length, onChange }: PinCodeProp) => (
   <>
     <ReactCodeInput
       onChange={(value: any) => {
-        console.log(value);
         onChange(value)
       }}
       type={field}

@@ -32,7 +32,6 @@ function DynamicForm<T, K = any>(fields: Array<DynamicFieldType<K>>, disabled = 
   const Form = ({ onSubmit, hideSubmitBtn }: DynamicFormProp<T>) => {
     const classes = Theme();
     const { handleSubmit, control, setValue } = useForm<T>();
-    console.log({ hideSubmitBtn, disabled })
     return (
       <>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>

@@ -6,9 +6,7 @@ import { StoreAction } from 'src/store';
  * Authorization Store State
  */
 export interface AuthStore {
-  OTP?: {
-    login: AuthorizeResponse
-  };
+  otp?: AuthorizeResponse
   authorized?: AuthorizedEntity;
   error?: string;
   loading: boolean;

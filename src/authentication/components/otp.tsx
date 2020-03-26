@@ -5,7 +5,7 @@ import PinCode from 'src/components/pin-code';
 import { Theme } from '../theme';
 
 export type OTPFormState = {
-  pin: string;
+  otp: string;
 };
 
 export type OTPFormProp = {

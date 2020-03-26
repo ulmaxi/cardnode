@@ -41,7 +41,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "format": "npx prettier --write \"src/**/*.(ts|tsx)\""
+
   },
   "config": {
     "commitizen": {

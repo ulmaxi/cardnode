@@ -11,6 +11,7 @@ import getStore from './store';
 import ProfileEditor from './users/profile-editor';
 import Prescriptions from './prescriptions/prescription';
 import MemberManager from './users/members';
+import Emergency from './emergency/emergency';
 
 const { persistor, store } = getStore();
 
@@ -26,6 +27,7 @@ const App: React.FC = () => {
             <MemberManager path="members" />
             <ProfileEditor path="add-member" editable={true} />
             <ProfileEditor path="profile/:id" editable={false} />
+            <Emergency path="emergency" />
           </Dashboard>
           <Registration path="register">
             <SignUp path="auth"></SignUp>

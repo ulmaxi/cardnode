@@ -1,8 +1,7 @@
 import { AuthorizedEntity, AuthorizeRequest, AuthorizeResponse, ValidateAuthorizationReq } from '@ulmax/frontend';
-import fetch from 'cross-fetch';
-import { ApiPath, fetchToJson } from 'src/api';
+import Fetch from 'src/fetch';
 import { Dispatcher, ThunkedAction } from 'src/store';
-import { otpStateSelector } from './auth-selectors';
+import { awaitTo, LocalStatusAction, localStatusAction } from 'src/util';
 import { AuthActions } from './auth-slice';
 
 /**
@@ -16,47 +15,51 @@ const { error, otp, success, loading } = AuthActions;
 /**
  * dispatch the store of the error
  */
-const dispatchError = (dispatch: Dispatcher) => (err: Error) => {
-  dispatch(error(err.message));
+const dispatchError = (dispatch: Dispatcher) => (err: Error | string) => {
+  const message = typeof error === 'string' ? error : (err as Error).message;
+  dispatch(error(message));
   setTimeout(() => {
     dispatch(error());
   }, ERROR_TIMEOUT);
 };
 
+type RequestOTPOptions = {
+  phoneNo: string;
+  registering?: boolean;
+} & LocalStatusAction<AuthorizeResponse>;
+
 /**
  * request OTP for the client
  */
-export function requestOTP(
-  phoneNo: string,
-  registering = false,
-): ThunkedAction {
+export function requestOTP({
+  phoneNo,
+  onError,
+  onSuccess,
+  registering,
+}: RequestOTPOptions): ThunkedAction {
   return async function(dispatch) {
-    try {
-      const path = ApiPath(
-        `api/internal/security/client/auth/institution/${
-          registering ? 'signup' : 'login'
-        }`,
-      );
-      const body = JSON.stringify({
-        identification: phoneNo,
-      } as AuthorizeRequest);
-      dispatch(loading());
-      console.log(body);
-      const res = await fetchToJson<AuthorizeResponse>(
-        await fetch(path, {
-          body,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }),
-      );
-      dispatch(otp(res));
-    } catch (err) {
-      dispatchError(dispatch)(err);
-    }
+    const [res, error] = await awaitTo(
+      Fetch.POST<AuthorizeResponse, Partial<AuthorizeRequest>>(
+        `auth/client/${registering ? 'signup' : 'login'}`,
+        {
+          identification: phoneNo,
+        },
+      ),
+    );
+    dispatch(loading());
+    localStatusAction([res, error], { onSuccess, onError });
+    localStatusAction([res, error], {
+      onSuccess: val => dispatch(otp(val)),
+      onError: error => dispatchError(dispatch)(error),
+    });
   };
 }
+
+/**
+ * options for confirming the otp
+ */
+type ConfirmOTPOptions = Omit<ValidateAuthorizationReq, 'id'> &
+  LocalStatusAction<AuthorizedEntity>;
 
 /**
  * confirms the OTP code and saves the authorized Entity
@@ -64,29 +67,25 @@ export function requestOTP(
 export function confirmOTP({
   otp,
   registering,
-}: Omit<ValidateAuthorizationReq, 'id'>): ThunkedAction {
+  onError,
+  onSuccess,
+}: ConfirmOTPOptions): ThunkedAction {
   return async function(dispatch, getState) {
-    try {
-      dispatch(loading());
-      const state = otpStateSelector(getState());
-      const path = ApiPath('api/internal/security/client/auth/otpvalidate');
-      const body = JSON.stringify({
-        id: state?.login?.loginId,
-        otp,
-        registering,
-      } as ValidateAuthorizationReq);
-      const auth = await fetchToJson<AuthorizedEntity>(
-        await fetch(path, {
-          body,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }),
-      );
-      dispatch(success(auth));
-    } catch (err) {
-      dispatchError(dispatch)(err);
-    }
+    const [res, error] = await awaitTo(
+      Fetch.GET<AuthorizedEntity, ValidateAuthorizationReq>(
+        `auth/otpvalidate`,
+        {
+          id: getState().authReducer.otp?.loginId ?? '',
+          otp,
+          registering,
+        },
+      ),
+    );
+    dispatch(loading());
+    localStatusAction([res, error], { onSuccess, onError });
+    localStatusAction([res, error], {
+      onSuccess: val => dispatch(success(val)),
+      onError: error => dispatchError(dispatch)(error),
+    });
   };
 }

@@ -2,6 +2,7 @@ import { Action, ActionCreatorWithPayload, combineReducers, configureStore } fro
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from './authentication/store/auth-slice';
+import userReducer from './users/store/users-slice';
 
 /**
  * interface for store Actions
@@ -24,7 +25,7 @@ export type GetStore = () => RootState;
 export type ThunkedAction = (dispatch: Dispatcher, getStore: GetStore) => void;
 
 
-const rootReducer = combineReducers({ authReducer })
+const rootReducer = combineReducers({ authReducer, userReducer });
 export type RootState = ReturnType<typeof rootReducer>
 
 

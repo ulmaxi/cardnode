@@ -26,7 +26,6 @@ export const PhoneNoForm = ({ submit, loading }: PhoneFormProp) => {
           as={
             <MobileNoInput
               onChange={value => {
-                console.log(value);
                 setValue('identification', value);
               }}
             />

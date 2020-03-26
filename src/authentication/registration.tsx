@@ -4,7 +4,7 @@ import AppBar from 'src/dashboard/components/layout/toolbar';
 import React from 'react';
 import logo from 'src/ulmax-branding.png';
 import ProfileEditor from 'src/users/profile-editor';
-import './styles.scss';
+import './components/styles.scss';
 
 const Profiler = <ProfileEditor />;
 
