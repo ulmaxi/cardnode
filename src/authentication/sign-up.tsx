@@ -7,6 +7,8 @@ import { authSelector } from './store/auth-selectors';
 import './components/styles.scss';
 import { PhoneForm } from './components/phone-no';
 import { OTPFormState } from './components/otp';
+import { navigate } from "@reach/router";
+import { AuthorizedEntity } from '@ulmax/frontend';
 
 /**
  * state structure for signup page
@@ -39,7 +41,9 @@ export default function SignUpPage({ children }: RouterPath) {
       confirmOTP({
         otp: parseInt(form.otp),
         registering: true,
-        onSuccess: () => console.log(`change the route`),
+        onSuccess: (auth: AuthorizedEntity) => {
+          navigate(`/register/profile/${auth.data.trackId}`)
+        },
       }) as any,
     );}
   return (

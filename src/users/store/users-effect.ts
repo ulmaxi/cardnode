@@ -61,7 +61,7 @@ export function requestPrincipalCard(req: RequestCard): ThunkedAction {
 }
 
 /** select the current user card no */
-const currentCardNo = (state: RootState) =>
+export const currentCardNo = (state: RootState) =>
   AuthorizedUserCard(state)?.card.cardNo;
 
 /**

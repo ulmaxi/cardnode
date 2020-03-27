@@ -1,14 +1,13 @@
-import React from 'react';
-
-import { Link } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Alert from '@material-ui/lab/Alert';
-import './styles.scss';
-import PhoneNo, { PhoneForm } from './phone-no';
+import { Link } from "@reach/router";
+import React from 'react';
 import OTP, { OTPFormState } from './otp';
+import PhoneNo, { PhoneForm } from './phone-no';
+import './styles.scss';
 
 /**
  * options form signup form component
@@ -57,7 +56,7 @@ function SignupForm({
           </Alert>
         </div>
         <div className="signup-link">
-          <Link href="/" variant="body2">
+          <Link to="/">
             {'Already have an account? Sign In'}
           </Link>
         </div>

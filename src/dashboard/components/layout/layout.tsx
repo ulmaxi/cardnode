@@ -18,10 +18,12 @@ export default function DashboardLayout({ children }: ParentProp) {
       <div onClick={() => (state.menu ? menuToggle() : '')} className="column">
         <Drawer menu={state.menu} />
         <ToolBar >
-          <TextField className="search-input-box" variant={'outlined'} label="Search" />
+          <div style={{display: 'flex',  alignItems: 'center', justifyContent: 'space-around'}}>
           <IconButton style={{color: 'white'}} onClick={() => menuToggle()}>
             <MenuIcon />
           </IconButton>
+          <TextField className="search-input-box" variant={'outlined'} label="Search" />
+          </div>
         </ToolBar>
         <div className="content"> {children}</div>
       </div>

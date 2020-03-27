@@ -1,3 +1,4 @@
+import { navigate } from '@reach/router';
 import React from 'react';
 import { useStore } from 'react-redux';
 import { RootState } from 'src/store';
@@ -22,6 +23,9 @@ export default function AddMemberDetails({}: AddMemberBiodataProp) {
           identification: accessLevel?.identification,
           biodata,
           communaldata: communalBiodata,
+        },
+        onSuccess(card) {
+          navigate('/dashboard/members');
         },
       }) as any,
     );

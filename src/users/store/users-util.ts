@@ -6,7 +6,7 @@ import { UlmaxCardLevel } from '@ulmax/frontend';
  */
 export const AuthorizedUserCard = (state: RootState) => {
   const authTrackId = state.authReducer.authorized?.data.trackId;
-  return Array.from(state.userReducer.members.values()).find(
+  return Object.values(state.userReducer.members).find(
     ({ card }) =>
       card.level === UlmaxCardLevel.Admin && card.trackId === authTrackId,
   );

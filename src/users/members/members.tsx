@@ -26,9 +26,9 @@ const MemberRow = ({ index, member }: MemberRowProp) => (
       backgroundColor: index % 2 === 0 ? 'rgb(200, 200, 200)' : 'white',
     }}
   >
-    <Typography> {index + 1} </Typography>
-    <Typography > {member.fullName} </Typography>
-    <Typography> {member.accesslevel} </Typography>
+    <Typography variant="body1"> {index + 1} </Typography>
+    <Typography variant="body1">{member.fullName.toUpperCase()}</Typography>
+    <Typography variant="body1">{member.accesslevel.toUpperCase()}</Typography>
   </div>
 );
 

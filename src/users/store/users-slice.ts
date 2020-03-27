@@ -6,13 +6,13 @@ import { StoreAction } from 'src/store';
  * Card Members Store State
  */
 export type UserStore = {
-  members: Map<string, UlmaxFullCard>;
+  members: Record<string, UlmaxFullCard>;
   loading: boolean;
   error?: string;
 };
 
 const initialState: UserStore = {
-  members: new Map(),
+  members: {},
   loading: false,
 };
 
@@ -22,18 +22,18 @@ const userSlice = createSlice({
   reducers: {
     batchUpsertMember: (state, { payload }: StoreAction<UlmaxFullCard[]>) => {
       payload.forEach(member => {
-        state.members.set(member.card.id, member);
+        state.members[member.card.id] = member;
       });
       state.loading = false;
       return state;
     },
     upsertMember: (state, { payload }: StoreAction<UlmaxFullCard>) => {
-      state.members.set(payload.card.id, payload);
+      state.members[payload.card.id] = payload;
       state.loading = false;
       return state;
     },
     removeMember: (state, { payload }: StoreAction<string>) => {
-      state.members.delete(payload);
+      delete state.members[payload];
       state.loading = false;
       return state;
     },

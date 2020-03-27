@@ -25,16 +25,16 @@ const App: React.FC = () => {
         <Router>
           <HomePage path="/" />
           <Dashboard path="dashboard">
-            <DashboardHome path="home" />
+            <DashboardHome path="/" />
             <Prescriptions path="prescriptions" />
             <MemberManager path="members" />
             <AddMember path="add-member" />
-            <UpdateBiodata path="update-member/:id" />
-            <DisplayBiodata path="profile/:id" />
+            <UpdateBiodata path="update-member/:biodataId" />
+            <DisplayBiodata path="profile/:biodataId" />
             <Emergency path="emergency" />
           </Dashboard>
           <Registration path="register">
-            <SignUp path="auth"></SignUp>
+            <SignUp path="/"></SignUp>
             <CreatePrincipal path="profile/:id" />
           </Registration>
         </Router>

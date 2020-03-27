@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Alert from '@material-ui/lab/Alert';
-import PhoneNo, { PhoneForm } from './phone-no';
+import { Link } from "@reach/router";
+import React from 'react';
 import OTP, { OTPFormState } from './otp';
+import PhoneNo, { PhoneForm } from './phone-no';
 
 /**
  * The loginFormProp options
@@ -54,7 +54,7 @@ function LoginForm({
           </Alert>
         </div>
         <div className="signup-link">
-          <Link href="/register/auth" variant="body2">
+          <Link to="register" variant="body2">
             {"Don't have an account? Sign Up"}
           </Link>
         </div>

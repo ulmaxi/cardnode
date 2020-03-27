@@ -1,5 +1,6 @@
 import { AuthHeaderKeys, SecurityKeys } from '@ulmax/frontend';
 import fetch from 'cross-fetch';
+import AppStore from 'src/store';
 
 /**
  * The secret for the key type authorization
@@ -20,10 +21,6 @@ interface RequestFactory {
  * FETCH API FOR ULMAX
  */
 export class UlmaxFetch {
-  /**
-   * the jwt secret for user authentication
-   */
-  private authSecret: AuthorizedSecret | null = null;
 
   constructor() {}
 
@@ -32,7 +29,7 @@ export class UlmaxFetch {
    */
   async GET<T, B=any>(route: string, query?: B) {
     return await this.fetchToJson<T>(
-      await fetch(`${this.ApiPath(route)}?${this.queryParam(query as any)}`, {
+      await fetch(`${this.ApiPath(route)}${this.queryParam(query as any)}`, {
         method: 'GET',
         headers: this.headers,
       }),
@@ -86,7 +83,7 @@ export class UlmaxFetch {
     method,
   }: RequestFactory) {
     return await this.fetchToJson<T>(
-      await fetch(`${this.ApiPath(route)}`, {
+      await fetch(`${this.ApiPath(route)}${this.queryParam(query)}`, {
         body: JSON.stringify(body || {}) as any,
         method: method,
         headers: this.headers,
@@ -102,8 +99,7 @@ export class UlmaxFetch {
     const { APIKEY, JWT } = AuthHeaderKeys;
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      [isAPIKEY ? APIKEY.toString() : JWT.toString()]:
-        this.authSecret?.value ?? ``,
+      'authorization': `${isAPIKEY ? APIKEY.toString() : JWT.toString()}:${this.authSecret?.value}`
     };
     return headers;
   }
@@ -112,34 +108,48 @@ export class UlmaxFetch {
    * formats the query to appendable url strings
    */
   private queryParam(query: any) {
-    if (typeof query === 'string' || !query) {
-      return query ?? '';
+    if (!query) {
+      return '';
     }
-    return new URLSearchParams(Object.entries(query || {})).toString();
+    if (typeof query === 'string') {
+      return `?${query}`;
+    }
+     return `?${new URLSearchParams(Object.entries(query)).toString()}`;
   }
-
+    /**
+   * the jwt secret for user authentication
+   */
+  private get authSecret (): AuthorizedSecret | null {
+    const { authReducer } = AppStore().store.getState();
+    if (authReducer?.authorized?.keys) {
+      return this.formatAuthKeys(authReducer?.authorized?.keys);
+    }
+    return null
+  };
+  
   /**
    * updates the JWT Authentication for the users
+   * add api keys for institutions
    */
-  authorized({ apiKey, jwt }: SecurityKeys) {
+  private formatAuthKeys({ apiKey, jwt }: SecurityKeys): AuthorizedSecret {
     if (apiKey) {
-      this.authSecret = {
+      return {
         keyType: 'APIKEY',
         value: apiKey,
       };
-      return;
     }
-    this.authSecret = {
+    return  {
       keyType: 'JWT',
       value: jwt,
     };
   }
 
+
   /**
    * The api route based on the baseUrl
    */
   private ApiPath(path: string) {
-    return `${UlmaxFetch.APIBASEURL}/${path}`;
+    return `${UlmaxFetch.APIBASEURL}/api/${path}`;
   }
 
   /**
@@ -158,7 +168,7 @@ export class UlmaxFetch {
   static APIBASEURL =
     process.env.NODE_ENV === 'production'
       ? 'api.ulmax.tech'
-      : 'http://localhost:4001';
+      : 'http://localhost:4000';
 }
 
 const FETCH = new UlmaxFetch();

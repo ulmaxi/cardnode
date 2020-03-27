@@ -15,15 +15,17 @@ const mapFullToFormState = ({ card, communaldata, biodata }: UlmaxFullCard) =>
   } as ProfileEditorState);
 
 
+  type DisplayBiodataDetailsProp = {
+    biodataId?: string
+  } & RouterPath;
+
 /**
  * displays a person's biodata
  */
-export default function DisplayBiodataDetails({}: RouterPath) {
+export default function DisplayBiodataDetails({ biodataId }: DisplayBiodataDetailsProp) {
   const { getState } = useStore<RootState>();
-  const biodataId = '';
   const formData = mapFullToFormState(
-    getState().userReducer.members.get(biodataId) as any,
-  );
+    getState().userReducer.members[`${biodataId}`]);
   return (
     <>
       <div>

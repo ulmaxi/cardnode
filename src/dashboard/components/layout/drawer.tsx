@@ -1,18 +1,18 @@
 import Drawer from '@material-ui/core/Drawer';
 import React from 'react';
-import LayoutSideBar, { DashboardDrawerLink} from './side-bar';
+import LayoutSideBar, { DashboardDrawerLink } from './side-bar';
 
 const routes:  DashboardDrawerLink[] = [
 {
-  link: '/dashboard/members',
+  link: 'members',
   title: 'Members'
 },
 {
-  link: '/dashboard/prescriptions',
+  link: 'prescriptions',
   title: 'Prescriptions'
 },
 {
-  link: '/dashboard/emergency',
+  link: 'emergency',
   title: 'Emergency'
 },
 // {

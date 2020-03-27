@@ -1,3 +1,4 @@
+import { navigate } from '@reach/router';
 import { UlmaxCardLevel } from '@ulmax/frontend';
 import React from 'react';
 import { useStore } from 'react-redux';
@@ -30,6 +31,9 @@ export default function CreatePrincipalBiodata({}: UpsertBiodataProp) {
           identification: accessLevel?.identification,
           biodata,
           communaldata: communalBiodata,
+        },
+        onSuccess(card) {
+          navigate('/dashboard');
         },
       }) as any,
     );
