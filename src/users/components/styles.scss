@@ -6,6 +6,7 @@
 }
 
 .profile-card-host {
+    min-height: 150px;
     
     .profile-card {
         background-color: rgb(102, 28, 112);
@@ -14,11 +15,9 @@
             background-color: rgb(255, 255, 255);
             flex: 0.3;
             padding: 4%;
-            .card-image {
-            border-radius: 50%;
-            background-image: url(/images/abiodun.jpg);
-            height: 120px;
-            width: 120px;
+            .card-avatar {
+                height: 106px;
+                width: 100px;
         }
     }
     .data-container {

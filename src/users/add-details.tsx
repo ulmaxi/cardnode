@@ -2,8 +2,10 @@ import { navigate } from '@reach/router';
 import React from 'react';
 import { useStore } from 'react-redux';
 import { RootState } from 'src/store';
-import ProfileEditor, { ProfileEditorState } from './components/profile-editor';
+import ProfileEditor, { ProfileEditorState, formatProfileErrorToString } from './components/profile-editor';
 import { addCardMember } from './store/users-effect';
+import { toastSuccess, toastError } from 'src/toast';
+import { UlmaxFullCard, PersonalBiodata } from '@ulmax/frontend';
 
 type AddMemberBiodataProp = {} & RouterPath;
 
@@ -17,6 +19,11 @@ export default function AddMemberDetails({}: AddMemberBiodataProp) {
     communalBiodata,
     biodata,
   }: ProfileEditorState) => {
+    console.log({
+      accessLevel,
+      communalBiodata,
+      biodata,
+    });
     dispatch(
       addCardMember({
         biodatas: {
@@ -24,9 +31,14 @@ export default function AddMemberDetails({}: AddMemberBiodataProp) {
           biodata,
           communaldata: communalBiodata,
         },
-        onSuccess(card) {
+        onSuccess({ biodata }) {
+          const { firstname, lastname  } = biodata as PersonalBiodata;
+          toastSuccess(`${firstname} ${lastname} card is successfully created`);
           navigate('/dashboard/members');
         },
+        onError(err) {
+          toastError(formatProfileErrorToString(err).toString());
+        }
       }) as any,
     );
   };

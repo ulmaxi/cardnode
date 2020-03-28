@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { UlmaxFullCard } from '@ulmax/frontend';
+import { UlmaxFullCard, SavedBiodataErrors } from '@ulmax/frontend';
 import { StoreAction } from 'src/store';
+import { produce } from 'immer';
 
 /**
  * Card Members Store State
@@ -8,8 +9,10 @@ import { StoreAction } from 'src/store';
 export type UserStore = {
   members: Record<string, UlmaxFullCard>;
   loading: boolean;
-  error?: string;
+  error?: Partial<SavedBiodataErrors> | string;
 };
+
+export type UpsertBiodataError = SavedBiodataErrors | string;
 
 const initialState: UserStore = {
   members: {},
@@ -20,31 +23,41 @@ const userSlice = createSlice({
   name: 'users',
   initialState: initialState,
   reducers: {
-    batchUpsertMember: (state, { payload }: StoreAction<UlmaxFullCard[]>) => {
-      payload.forEach(member => {
-        state.members[member.card.id] = member;
+    batchUpsertMember (state, { payload }: StoreAction<UlmaxFullCard[]>) {
+      return produce(state, (draft) => {
+        payload.forEach(member => {
+          draft.members[member.card.id] = member;
+        });
+        draft.loading = false;
+        return draft;
+      })
+    },
+    upsertMember (state, { payload }: StoreAction<UlmaxFullCard>) {
+      return produce(state, (draft) => {
+        draft.members[payload.card.id] = payload;
+        draft.loading = false;
+        return draft;
       });
-      state.loading = false;
-      return state;
     },
-    upsertMember: (state, { payload }: StoreAction<UlmaxFullCard>) => {
-      state.members[payload.card.id] = payload;
-      state.loading = false;
-      return state;
+    removeMember (state, { payload }: StoreAction<string>)  {
+      return produce(state, (draft) => {
+        delete draft.members[payload];
+        draft.loading = false;
+        return draft;
+      })
     },
-    removeMember: (state, { payload }: StoreAction<string>) => {
-      delete state.members[payload];
-      state.loading = false;
-      return state;
+    error (state, { payload }: StoreAction<UpsertBiodataError | undefined>) {
+      return produce(state, draft => {
+        draft.error = payload;
+        draft.loading = false;
+        return draft;
+      })
     },
-    error: (state, { payload }: StoreAction<string | undefined>) => {
-      state.error = payload;
-      state.loading = false;
-      return state;
-    },
-    loading: state => {
-      state.loading = true;
-      return state;
+    loading (state) {
+      return produce(state, draft => {
+        draft.loading = true;
+        return draft;
+      })
     },
   },
 });

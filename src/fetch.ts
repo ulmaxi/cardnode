@@ -155,11 +155,12 @@ export class UlmaxFetch {
   /**
    * parse the fetch to json response
    */
-  private fetchToJson<T>(res: Response) {
+  private async fetchToJson<T>(res: Response) {
+    const parsed = await res.json();
     if (res.status >= 400) {
-      throw new Error('Bad response from server');
+      return Promise.reject(parsed.message);
     }
-    return res.json() as Promise<T>;
+    return parsed as Promise<T>;
   }
 
   /**

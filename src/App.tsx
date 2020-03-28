@@ -1,6 +1,8 @@
 import { Router } from '@reach/router';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { PersistGate } from 'redux-persist/integration/react';
 import Registration from './authentication/registration';
 import SignUp from './authentication/sign-up';
@@ -38,6 +40,7 @@ const App: React.FC = () => {
             <CreatePrincipal path="profile/:id" />
           </Registration>
         </Router>
+        <ToastContainer/>
       </PersistGate>
     </Provider>
   );

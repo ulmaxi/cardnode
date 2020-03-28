@@ -1,4 +1,10 @@
-import { Action, ActionCreatorWithPayload, combineReducers, configureStore } from '@reduxjs/toolkit';
+import {
+  Action,
+  ActionCreatorWithPayload,
+  ActionCreatorWithoutPayload,
+  combineReducers,
+  configureStore,
+} from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from './authentication/store/auth-slice';
@@ -50,3 +56,23 @@ export type AppDispatch = typeof store.dispatch;
 let persistor = persistStore(store);
 
 export default () => ({ store, persistor });
+
+/**
+ * time for error to be cleared
+ * from the store
+ */
+const ERROR_TIMEOUT = 3000;
+
+type ErrorDispatcher<T> = ActionCreatorWithPayload<T | null, string>;
+
+/**
+ * dispatch the store of the error
+ */
+export const dispatchError = <T> (dispatch: Dispatcher, action: ErrorDispatcher<T>) => (
+  err: T,
+) => {
+  setTimeout(() => {
+    dispatch(action(null));
+  }, ERROR_TIMEOUT);
+  dispatch(action(err));
+};

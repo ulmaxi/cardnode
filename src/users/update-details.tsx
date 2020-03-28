@@ -1,10 +1,12 @@
 import React from 'react';
 import { useStore } from 'react-redux';
 import { RootState } from 'src/store';
-import ProfileEditor, { ProfileEditorState } from './components/profile-editor';
+import ProfileEditor, { ProfileEditorState, formatProfileErrorToString } from './components/profile-editor';
 import { updateCardMember } from './store/users-effect';
 
 import { navigate } from '@reach/router';
+import { PersonalBiodata } from '@ulmax/frontend';
+import { toastSuccess, toastError } from 'src/toast';
 
 type UpsertBiodataProp = { biodataId?: string } & RouterPath;
 
@@ -27,9 +29,14 @@ export default function UpdateMemberDetails({biodataId}: UpsertBiodataProp) {
           biodata,
           communaldata: communalBiodata,
         },
-        onSuccess(card) {
+        onSuccess({ biodata }) {
+          const { firstname, lastname  } = biodata as PersonalBiodata;
+          toastSuccess(`${firstname} ${lastname} card is successfully created`);
           navigate('/dashboard/members');
         },
+        onError(err) {
+          toastError(formatProfileErrorToString(err).toString());
+        }
       }) as any,
     );
   };

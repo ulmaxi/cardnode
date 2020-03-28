@@ -5,7 +5,7 @@ import StepContent from '@material-ui/core/StepContent';
 import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
 import Alert from '@material-ui/lab/Alert';
-import { CommunalData, PersonalBiodata } from '@ulmax/frontend';
+import { CommunalData, PersonalBiodata, SavedBiodataErrors } from '@ulmax/frontend';
 import React, { useState } from 'react';
 import AccessLevelForm, { AccessLevelFormState } from './access-level-form';
 import UserBiodataForm from './biodata-form';
@@ -20,18 +20,40 @@ export type ProfileEditorState = {
 };
 
 /**
+ * converts the errors to string message
+ */
+export const formatProfileErrorToString = (error: Partial<SavedBiodataErrors> | string) => {
+  if (typeof error !== 'string') {
+    const {  biodataError, communalError} = error;
+    if (biodataError && communalError) {
+      return `incomplete or invalid  found in both the personal and communal forms`;
+    }
+    if (biodataError && !communalError) {
+      return `recheck the biodata form for errors or ommission`;
+    }
+    if (communalError && !biodataError) {
+      return `recheck the biodata form for errors or ommission`;
+    }
+  }
+  return error;
+}
+/**
  * configuration for the member form details
  */
 export interface ProfileEditorProp {
   loading?: boolean;
   editable?: boolean;
   onSubmit?: (value: ProfileEditorState) => any;
-  error?: string;
+  error?: string | Partial<SavedBiodataErrors>;
   value?: Partial<ProfileEditorState>;
 }
 
 const ProfileEditor = (props: ProfileEditorProp) => {
-  const [state, setState] = useState<ProfileEditorState>({ currentStep: 0 });
+  const [state, setState] = useState<ProfileEditorState>({ 
+    currentStep: 0,
+    biodata: props.value?.biodata,
+    communalBiodata: props.value?.communalBiodata,
+  });
   const submitPersonal = (value: PersonalBiodata) => {
     setState({ ...state, currentStep: state.currentStep + 1, biodata: value });
   };
@@ -59,7 +81,7 @@ const ProfileEditor = (props: ProfileEditorProp) => {
               </StepLabel>
               <StepContent>
                 <UserBiodataForm
-                  value={props.value?.biodata}
+                  value={state.biodata}
                   onSubmit={submitPersonal}
                   disable={!props.editable}
                   hideSubmitBtn={!props.editable}
@@ -81,7 +103,7 @@ const ProfileEditor = (props: ProfileEditorProp) => {
               </StepLabel>
               <StepContent>
                 <CommunalDataForm
-                  value={props.value?.communalBiodata}
+                  value={state.communalBiodata}
                   onSubmit={submitCommunal}
                   disable={!props.editable}
                   hideSubmitBtn={!props.editable}
@@ -106,7 +128,7 @@ const ProfileEditor = (props: ProfileEditorProp) => {
                   onSubmit={submitAccess}
                   disable={!props.editable}
                   hideSubmitBtn={!props.editable}
-                  value={props.value?.accessLevel}
+                  value={state.accessLevel}
                 />
                 <div hidden={props.editable}>
                   <Button
@@ -126,7 +148,7 @@ const ProfileEditor = (props: ProfileEditorProp) => {
         </div>
         <div hidden={props.error ? false : true}>
           <Alert variant="filled" severity="error">
-            {props.error}
+            {formatProfileErrorToString(props.error ?? '')}
           </Alert>
         </div>
       </div>

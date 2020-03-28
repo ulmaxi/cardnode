@@ -1,10 +1,11 @@
 import { navigate } from '@reach/router';
-import { UlmaxCardLevel } from '@ulmax/frontend';
+import { UlmaxCardLevel, PersonalBiodata } from '@ulmax/frontend';
 import React from 'react';
 import { useStore } from 'react-redux';
 import { RootState } from 'src/store';
-import ProfileEditor, { ProfileEditorState } from './components/profile-editor';
+import ProfileEditor, { ProfileEditorState, formatProfileErrorToString } from './components/profile-editor';
 import { requestPrincipalCard } from './store/users-effect';
+import { toastSuccess, toastError } from 'src/toast';
 
 type UpsertBiodataProp = {} & RouterPath;
 
@@ -32,9 +33,14 @@ export default function CreatePrincipalBiodata({}: UpsertBiodataProp) {
           biodata,
           communaldata: communalBiodata,
         },
-        onSuccess(card) {
+        onSuccess({ biodata }) {
+          const { firstname, lastname  } = biodata as PersonalBiodata;
+          toastSuccess(`${firstname} ${lastname} card is successfully created`);
           navigate('/dashboard');
         },
+        onError(err) {
+          toastError(formatProfileErrorToString(err).toString());
+        }
       }) as any,
     );
   };
