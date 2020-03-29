@@ -1,12 +1,16 @@
 import { navigate } from '@reach/router';
 import { Authorization, PersonalBiodata, UlmaxFullCard } from '@ulmax/frontend';
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { useStore } from 'react-redux';
 import { RootState } from 'src/store';
 import ProfileCard from 'src/users/components/profile-card';
 import MemberList, { MemberDetails } from 'src/users/members/members';
 import './home-board.scss';
 import WardCard from './ward-card/ward-card';
+import { retriveCardMembers } from 'src/users/store/users-effect';
+import { toastSuccess, toastError } from 'src/toast';
+import { AnyAction } from 'redux';
+import { useWillUnmount } from 'beautiful-react-hooks';
 
 /**
  * retrieves all the members full cards
@@ -35,7 +39,10 @@ const authorizedUserCard = (auth: Authorization, cards: UlmaxFullCard[]) => {
 const getBasicCardInfo = (state: RootState) => {
   const authData = authorization(state);
   if (authData) {
-    const { card, biodata } = authorizedUserCard(authData, getMembersFullCard(state));
+    const { card, biodata } = authorizedUserCard(
+      authData,
+      getMembersFullCard(state),
+    );
     const { firstname, lastname } = biodata as PersonalBiodata;
     return {
       cardNo: card.cardNo,
@@ -60,6 +67,22 @@ const memberDetailFromCard = ({ biodata, card }: UlmaxFullCard) => {
   } as MemberDetails;
 };
 
+/**
+ * retrives the card members from the server
+ */
+const getCardMembers = (dispatch: Dispatch<AnyAction>) => {
+  dispatch(
+    retriveCardMembers({
+      onSuccess() {
+        toastSuccess(`successfully retrive the card members`);
+      },
+      onError(err) {
+        toastError(err);
+      },
+    }) as any,
+  );
+};
+
 const navigateUnAuthorized = (state: RootState) => {
   if (!authorization(state)) {
     navigate('/');
@@ -69,7 +92,8 @@ const navigateUnAuthorized = (state: RootState) => {
 function DashBoardItems({}: RouterPath) {
   const { getState } = useStore<RootState>();
   navigateUnAuthorized(getState());
-  const { fullName, cardNo} = getBasicCardInfo(getState());
+  const { fullName, cardNo } = getBasicCardInfo(getState());
+
   return (
     <>
       <div className="information">

@@ -6,6 +6,8 @@ import { useStore } from 'react-redux';
 import { RootState } from 'src/store';
 import { PersonalBiodata } from '@ulmax/frontend';
 import { retrivePrescriptions } from './store/prescription-effect';
+import { toastSuccess, toastError } from 'src/toast';
+import { formatProfileErrorToString } from 'src/users/components/profile-editor';
 
 interface DrugPrescriptionState {
   currentMember?: PersonalBiodata;
@@ -33,7 +35,15 @@ function DrugPrescription({}: RouterPath) {
       member.cardnode,
     );
     if (storedPrescriptions?.prescriptions.length === 0) {
-      dispatch(retrivePrescriptions({ cardId: member.cardnode }) as any);
+      dispatch(retrivePrescriptions({ cardId: member.cardnode, 
+        onSuccess() {
+          const { firstname, lastname  } = pageState.currentMember as PersonalBiodata;
+          toastSuccess(`${firstname} ${lastname} prescriptions is successfully retrieved`);
+        },
+        onError(err) {
+          toastError(formatProfileErrorToString(err).toString());
+        }
+       }) as any);
       return;
     }
   };

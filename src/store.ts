@@ -4,6 +4,7 @@ import {
   ActionCreatorWithoutPayload,
   combineReducers,
   configureStore,
+  AnyAction,
 } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -17,10 +18,14 @@ import userReducer from './users/store/users-slice';
 export type StoreAction<T> = { type: string; payload: T };
 
 /**
+ * various types of actions that can be dispatched
+ */
+export type DispatchActions<P = any> = ActionCreatorWithPayload<P> | Action | ThunkedAction | AnyAction;
+/**
  * interface for the dispatcher type
  */
 export type Dispatcher<P = any> = (
-  action: ActionCreatorWithPayload<P> | Action,
+  action: DispatchActions<P>,
 ) => void;
 
 /**

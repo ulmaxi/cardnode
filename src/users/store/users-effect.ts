@@ -13,6 +13,7 @@ import {
 } from 'src/util';
 import { userActions, UpsertBiodataError } from './users-slice';
 import { AuthorizedUserCard } from './users-util';
+import { toastError, toastSuccess } from 'src/toast';
 
 const {
   batchUpsertMember,
@@ -21,6 +22,33 @@ const {
   removeMember,
   upsertMember,
 } = userActions;
+
+/**
+ * request to get all card members
+ */
+export function retrivePrincipalCard({
+  onError,
+  onSuccess,
+}: LocalStatusAction<UlmaxFullCard>): ThunkedAction {
+  return async function(dispatch) {
+    dispatch(loading());
+    const response = await awaitTo(
+      Fetch.GET<UlmaxFullCard>(
+        `cardnode/admin/mycard`,
+      ),
+    );
+    localStatusAction(response, {
+      onSuccess (members) {
+        dispatch(upsertMember(members));
+      },
+      onError: err => dispatchError(dispatch, error)(err),
+    });
+    localStatusAction(response, {
+      onError,
+      onSuccess,
+    });
+  };
+}
 
 /**
  * request to get all card members

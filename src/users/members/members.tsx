@@ -27,8 +27,8 @@ const MemberRow = ({ index, member }: MemberRowProp) => (
     }}
   >
     <Typography variant="body1"> {index + 1} </Typography>
-    <Typography variant="body1">{member.fullName.toUpperCase()}</Typography>
-    <Typography variant="body1">{member.accesslevel.toUpperCase()}</Typography>
+    <Typography variant="body2">{member.fullName.toUpperCase()}</Typography>
+    <Typography variant="body2">{member.accesslevel.toUpperCase()}</Typography>
   </div>
 );
 

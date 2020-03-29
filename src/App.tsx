@@ -17,6 +17,8 @@ import CreatePrincipal from './users/create-principal-details';
 import DisplayBiodata from './users/display-details';
 import MemberManager from './users/members';
 import UpdateBiodata from './users/update-details';
+import Login from 'src/authentication/login';
+
 
 const { persistor, store } = getStore();
 
@@ -25,7 +27,9 @@ const App: React.FC = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Router>
-          <HomePage path="/" />
+          <HomePage path="/" >
+            <Login path="/" />
+          </HomePage>
           <Dashboard path="dashboard">
             <DashboardHome path="/" />
             <Prescriptions path="prescriptions" />

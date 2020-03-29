@@ -1,27 +1,12 @@
 import { AuthorizedEntity, AuthorizeRequest, AuthorizeResponse, ValidateAuthorizationReq } from '@ulmax/frontend';
 import Fetch from 'src/fetch';
-import { Dispatcher, ThunkedAction } from 'src/store';
+import { Dispatcher, ThunkedAction, dispatchError } from 'src/store';
 import { awaitTo, LocalStatusAction, localStatusAction } from 'src/util';
 import { AuthActions } from './auth-slice';
 
-/**
- * time for error to be cleared
- * from the store
- */
-const ERROR_TIMEOUT = 3000;
+
 
 const { error, otp, success, loading } = AuthActions;
-
-/**
- * dispatch the store of the error
- */
-const dispatchError = (dispatch: Dispatcher) => (err: Error | string) => {
-  const message = typeof error === 'string' ? error : (err as Error).message;
-  dispatch(error(message));
-  setTimeout(() => {
-    dispatch(error());
-  }, ERROR_TIMEOUT);
-};
 
 type RequestOTPOptions = {
   phoneNo: string;
@@ -38,7 +23,7 @@ export function requestOTP({
   registering,
 }: RequestOTPOptions): ThunkedAction {
   return async function(dispatch) {
-    const [res, error] = await awaitTo(
+    const result = await awaitTo(
       Fetch.POST<AuthorizeResponse, Partial<AuthorizeRequest>>(
         `auth/client/${registering ? 'signup' : 'login'}`,
         {
@@ -47,10 +32,10 @@ export function requestOTP({
       ),
     );
     dispatch(loading());
-    localStatusAction([res, error], { onSuccess, onError });
-    localStatusAction([res, error], {
+    localStatusAction(result, { onSuccess, onError });
+    localStatusAction(result, {
       onSuccess: val => dispatch(otp(val)),
-      onError: error => dispatchError(dispatch)(error),
+      onError: err => dispatchError(dispatch, error)(err),
     });
   };
 }
@@ -71,7 +56,7 @@ export function confirmOTP({
   onSuccess,
 }: ConfirmOTPOptions): ThunkedAction {
   return async function(dispatch, getState) {
-    const [res, error] = await awaitTo(
+    const result = await awaitTo(
       Fetch.GET<AuthorizedEntity, ValidateAuthorizationReq>(
         `auth/otpvalidate`,
         {
@@ -82,10 +67,10 @@ export function confirmOTP({
       ),
     );
     dispatch(loading());
-    localStatusAction([res, error], { onSuccess, onError });
-    localStatusAction([res, error], {
+    localStatusAction(result, { onSuccess, onError });
+    localStatusAction(result, {
       onSuccess: val => dispatch(success(val)),
-      onError: error => dispatchError(dispatch)(error),
+      onError: err => dispatchError(dispatch, error)(err),
     });
   };
 }
