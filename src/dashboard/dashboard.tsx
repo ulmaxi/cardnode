@@ -1,7 +1,6 @@
-import React from 'react';
 import { CssBaseline } from '@material-ui/core';
+import React from 'react';
 import DashboardLayout from './components/layout/layout';
-// import DrugPrescription from 'src/prescriptions/prescription';
 
 
 type DashboardProp = {
@@ -24,7 +23,6 @@ export default function Dashboard({children }: DashboardProp) {
         <CssBaseline />
         <Layout>
           { children }
-          {/* <DrugPrescription /> */}
         </Layout>
       </div>
     </>

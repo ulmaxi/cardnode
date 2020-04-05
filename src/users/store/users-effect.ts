@@ -1,19 +1,9 @@
-import {
-  CardMemberRequest,
-  UlmaxCard,
-  UlmaxFullCard,
-} from '@ulmax/frontend';
+import { CardMemberRequest, UlmaxCard, UlmaxFullCard } from '@ulmax/frontend';
 import Fetch from 'src/fetch';
 import { Dispatcher, dispatchError, RootState, ThunkedAction } from 'src/store';
-import {
-  AwaitMap,
-  awaitTo,
-  LocalStatusAction,
-  localStatusAction,
-} from 'src/util';
-import { userActions, UpsertBiodataError } from './users-slice';
+import { AwaitMap, awaitTo, LocalStatusAction, localStatusAction } from 'src/util';
+import { UpsertBiodataError, userActions } from './users-slice';
 import { AuthorizedUserCard } from './users-util';
-import { toastError, toastSuccess } from 'src/toast';
 
 const {
   batchUpsertMember,
@@ -33,12 +23,10 @@ export function retrivePrincipalCard({
   return async function(dispatch) {
     dispatch(loading());
     const response = await awaitTo(
-      Fetch.GET<UlmaxFullCard>(
-        `cardnode/admin/mycard`,
-      ),
+      Fetch.GET<UlmaxFullCard>(`cardnode/admin/mycard`),
     );
     localStatusAction(response, {
-      onSuccess (members) {
+      onSuccess(members) {
         dispatch(upsertMember(members));
       },
       onError: err => dispatchError(dispatch, error)(err),
@@ -92,7 +80,7 @@ export function requestPrincipalCard(req: RequestCard): ThunkedAction {
   return async function(dispatch) {
     dispatch(loading());
     const response = await awaitToUpsertError(
-       Fetch.POST<UlmaxFullCard, CardMemberRequest>(
+      Fetch.POST<UlmaxFullCard, CardMemberRequest>(
         `cardnode/admin/request/primarycard`,
         req.biodatas,
       ),
@@ -131,6 +119,7 @@ const memberUpdateActions = (
  */
 export function addCardMember(req: RequestCard): ThunkedAction {
   return async function(dispatch, getState) {
+  console.log(req);
     dispatch(loading());
     const response = await awaitToUpsertError(
       Fetch.POST<UlmaxFullCard, CardMemberRequest>(
@@ -138,6 +127,7 @@ export function addCardMember(req: RequestCard): ThunkedAction {
         req.biodatas,
       ),
     );
+    console.log(response);
     memberUpdateActions(dispatch, response)(req);
   };
 }
@@ -152,7 +142,7 @@ export function updateCardMember(
   return async function(dispatch, getState) {
     dispatch(loading());
     const response = await awaitToUpsertError(
-       Fetch.PUT<UlmaxFullCard, CardMemberRequest>(
+      Fetch.PUT<UlmaxFullCard, CardMemberRequest>(
         `cardnode/cards/${currentCardNo(getState())}/members/${cardId}`,
         req.biodatas,
       ),
@@ -185,7 +175,7 @@ export function deleteCardMember({
     );
     localStatusAction(response, {
       onSuccess: val => dispatch(removeMember(val.card.id)),
-      onError: (err) => dispatchError(dispatch, error)(err),
+      onError: err => dispatchError(dispatch, error)(err),
     });
     localStatusAction(response, {
       onError,
@@ -197,7 +187,9 @@ export function deleteCardMember({
 /**
  * maps a promise to an array text
  */
-async function awaitToUpsertError(promise: Promise<UlmaxFullCard>): Promise<AwaitMap<UlmaxFullCard, UpsertBiodataError>> {
+async function awaitToUpsertError(
+  promise: Promise<UlmaxFullCard>,
+): Promise<AwaitMap<UlmaxFullCard, UpsertBiodataError>> {
   try {
     return [await promise, null];
   } catch (error) {

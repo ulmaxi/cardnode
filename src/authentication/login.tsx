@@ -5,7 +5,7 @@ import { useDidMount } from 'beautiful-react-hooks';
 import React, { useState } from 'react';
 import { useSelector, useStore } from 'react-redux';
 import { RootState, Dispatcher } from 'src/store';
-import { toastSuccess, toastInfo } from 'src/toast';
+import { toastSuccess, toastError, toastInfo } from 'src/toast';
 import { retrivePrincipalCard } from 'src/users/store/users-effect';
 import LoginForm from './components/login-form';
 import { OTPFormState } from './components/otp';
@@ -44,6 +44,9 @@ const reqOTP = (
         toastSuccess(`OTP code has been sent to your identification phoneNo`);
         setPageState({ showPhone: false });
       },
+      onError(err) {
+        toastError(err);
+      },
       registering: false,
     }),
   );
@@ -56,6 +59,9 @@ const reqAuth = (dispatch: Dispatcher) => (form: OTPFormState) =>
       onSuccess({ data }) {
         toastSuccess(`successfully Authenticated ${data.identification}`);
         getCard(dispatch)();
+      },
+      onError(err) {
+        toastError(err);
       },
     }),
   );
@@ -81,6 +87,7 @@ export default function SignInSide({}: RouterPath) {
     showPhone: true,
   });
   useDidMount(() => {
+    console.log(getState());
     navigateAuthorized(getState());
   });
   return (

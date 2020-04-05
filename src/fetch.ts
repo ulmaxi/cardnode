@@ -158,6 +158,7 @@ export class UlmaxFetch {
   private async fetchToJson<T>(res: Response) {
     const parsed = await res.json();
     if (res.status >= 400) {
+    console.log({ error: parsed.message });
       return Promise.reject(parsed.message);
     }
     return parsed as Promise<T>;

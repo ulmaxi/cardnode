@@ -1,6 +1,6 @@
 import { navigate } from '@reach/router';
 import { Authorization, PersonalBiodata, UlmaxFullCard } from '@ulmax/frontend';
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useState } from 'react';
 import { useStore } from 'react-redux';
 import { RootState } from 'src/store';
 import ProfileCard from 'src/users/components/profile-card';
@@ -10,7 +10,7 @@ import WardCard from './ward-card/ward-card';
 import { retriveCardMembers } from 'src/users/store/users-effect';
 import { toastSuccess, toastError } from 'src/toast';
 import { AnyAction } from 'redux';
-import { useWillUnmount } from 'beautiful-react-hooks';
+import { useLifecycle, useDidMount } from 'beautiful-react-hooks';
 
 /**
  * retrieves all the members full cards
@@ -89,19 +89,30 @@ const navigateUnAuthorized = (state: RootState) => {
   }
 };
 
+type DashBoardState = {
+  fullName?: string;
+  cardNo?: string;
+};
+
 function DashBoardItems({}: RouterPath) {
-  const { getState } = useStore<RootState>();
-  navigateUnAuthorized(getState());
-  const { fullName, cardNo } = getBasicCardInfo(getState());
+  const { getState, dispatch } = useStore<RootState>();
+  const [pageState, setPageState] = useState<DashBoardState>({});
+  useLifecycle(() => {
+    navigateUnAuthorized(getState());
+  }, () => {});
+  useDidMount(() => {
+    setPageState(getBasicCardInfo(getState()));
+    getCardMembers(dispatch);
+  });
 
   return (
     <>
-      <div className="information">
+      <div hidden={!!pageState.cardNo} className="information">
         <div className="card">
-          <ProfileCard fullname={fullName} />
+          <ProfileCard fullname={pageState.fullName || ''} />
         </div>
         <div className="card">
-          <WardCard cardNo={cardNo} />
+          <WardCard cardNo={pageState.cardNo || ''} />
         </div>
       </div>
       <div className="member-list">

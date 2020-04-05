@@ -10,7 +10,7 @@ export async function awaitTo<T>(promise: Promise<T>): Promise<AwaitMap<T>> {
   try {
     return [await promise, null];
   } catch (error) {
-    return [null, (error as Error).message];
+    return [null, (error?.message) ? (error as Error).message : error];
   }
 }
 

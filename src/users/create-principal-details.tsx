@@ -9,7 +9,7 @@ import { requestPrincipalCard } from './store/users-effect';
 
 type UpsertBiodataProp = {} & RouterPath;
 
-const onSubmit = (dispatch: Dispatcher) => ({
+const onSubmit = (dispatch: Dispatcher, identification: string) => ({
   accessLevel,
   communalBiodata,
   biodata,
@@ -17,7 +17,7 @@ const onSubmit = (dispatch: Dispatcher) => ({
   dispatch(
     requestPrincipalCard({
       biodatas: {
-        identification: accessLevel?.identification,
+        identification,
         biodata,
         communaldata: communalBiodata,
       },
@@ -38,10 +38,10 @@ const onSubmit = (dispatch: Dispatcher) => ({
  */
 export default function CreatePrincipalBiodata({}: UpsertBiodataProp) {
   const { dispatch, getState } = useStore<RootState>();
+  const identification = getState().authReducer.authorized?.data.identification || '';
   const formData: Partial<ProfileEditorState> = {
     accessLevel: {
-      identification:
-        getState().authReducer.authorized?.data.identification || '',
+      identification,
       level: UlmaxCardLevel.Admin,
     },
   };
@@ -52,7 +52,7 @@ export default function CreatePrincipalBiodata({}: UpsertBiodataProp) {
           loading={getState().userReducer.loading}
           error={getState().userReducer.error}
           value={formData}
-          onSubmit={onSubmit(dispatch as any)}
+          onSubmit={onSubmit(dispatch as any, identification)}
           editable={true}
         />
       </div>

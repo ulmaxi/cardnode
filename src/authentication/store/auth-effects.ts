@@ -1,9 +1,8 @@
 import { AuthorizedEntity, AuthorizeRequest, AuthorizeResponse, ValidateAuthorizationReq } from '@ulmax/frontend';
 import Fetch from 'src/fetch';
-import { Dispatcher, ThunkedAction, dispatchError } from 'src/store';
+import { dispatchError, ThunkedAction } from 'src/store';
 import { awaitTo, LocalStatusAction, localStatusAction } from 'src/util';
 import { AuthActions } from './auth-slice';
-
 
 
 const { error, otp, success, loading } = AuthActions;
@@ -32,11 +31,11 @@ export function requestOTP({
       ),
     );
     dispatch(loading());
-    localStatusAction(result, { onSuccess, onError });
     localStatusAction(result, {
       onSuccess: val => dispatch(otp(val)),
       onError: err => dispatchError(dispatch, error)(err),
     });
+    localStatusAction(result, { onSuccess, onError });
   };
 }
 
@@ -67,10 +66,10 @@ export function confirmOTP({
       ),
     );
     dispatch(loading());
-    localStatusAction(result, { onSuccess, onError });
     localStatusAction(result, {
       onSuccess: val => dispatch(success(val)),
       onError: err => dispatchError(dispatch, error)(err),
     });
+    localStatusAction(result, { onSuccess, onError });
   };
 }

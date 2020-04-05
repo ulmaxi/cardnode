@@ -1,4 +1,4 @@
-import { Link } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 import React from 'react';
 const logo = process.env.PUBLIC_URL + '/images/card_node_logo.png';
 
@@ -25,6 +25,10 @@ function LayoutSideBar({ routes }: LayoutSideBarProps) {
         <div className="sidebar-spacer"></div>
         <div className="sidebar-routes">
           { routes.map((r, i) => <Link to={r.link} key={i}> { r?.icon} {r.title} </Link>) }
+          <a onClick={() => {
+            localStorage.clear();
+            // dispatch action to store to logout
+          }} > Log Out </a>
         </div>
       </div>
     </>
